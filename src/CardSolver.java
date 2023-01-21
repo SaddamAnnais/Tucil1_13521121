@@ -15,6 +15,18 @@ public class CardSolver {
 		System.out.println(i);
 	}
 
+	public static void displayMatrixString(String [][] m) {
+		int i = 0;
+		for (String[] arr : m) {
+			for (String n : arr) {
+				System.out.print(n + " ");
+			}
+			i += 1;
+			System.out.println();
+		}
+		System.out.println(i);
+	}
+
 	public static float operation(float n1, int op, float n2) {
 		// -1 : +
 		// -2 : -
@@ -32,6 +44,46 @@ public class CardSolver {
 				return n1 / n2;
 			default:
 				return 0;
+		}
+	}
+
+	public static String operationToString(String n1, String op, String n2) {
+		// -1 : +
+		// -2 : -
+		// -3 : *
+		// -4 : /
+
+		switch (op) {
+			case "-1":
+				return  "(" + n1 + " + " + n2 + ")" ;
+			case "-2":
+				return "(" + n1 + " - " + n2 + ")";
+			case "-3":
+				return "(" + n1 + " * " + n2 + ")";
+			case "-4":
+				return "(" + n1 + " / " + n2 + ")";
+			default:
+				return "";
+		}
+	}
+
+	public static String operationToStringLast(String n1, String op, String n2) {
+		// -1 : +
+		// -2 : -
+		// -3 : *
+		// -4 : /
+
+		switch (op) {
+			case "-1":
+				return  n1 + " + " + n2 ;
+			case "-2":
+				return n1 + " - " + n2;
+			case "-3":
+				return n1 + " * " + n2;
+			case "-4":
+				return n1 + " / " + n2;
+			default:
+				return "";
 		}
 	}
 
@@ -132,8 +184,109 @@ public class CardSolver {
 			allCardAndOp4[k] = new float[] { operation(allCardAndOp3[i][0], (int) allCardAndOp3[i][1], allCardAndOp3[i][2])};
 			k += 1;
 		}
-		displayMatrixFloat(allCardAndOp4);
+		// displayMatrixFloat(allCardAndOp4);
 		return allCardAndOp4;
 	}
+
+	public static float[][] getFloatArrayOfCombination(int n0, int n1, int n2, int n3) {
+		float[][] allCardAndOp1 = allCardAndOp1(n0, n1, n2, n3);
+		float[][] allCardAndOp2 = allCardAndOp2(allCardAndOp1);
+		float[][] allCardAndOp3 = allCardAndOp3(allCardAndOp2);
+		float[][] allCardAndOp4 = allCardAndOp4(allCardAndOp3);
+
+		float[][] allCardAndOpFinal = new float[24 * 64 * 3 * 2 - 1536][];
+		int j = 0;
+		for (int i = 0; i < 24 * 64 * 3 * 2; i++) {
+			if (i%6 != 4) {
+				allCardAndOpFinal[j] = allCardAndOp4[i];
+				j += 1;
+			}
+		}
+
+		displayMatrixFloat(allCardAndOpFinal);
+
+		return allCardAndOp4;
+
+	}
+
+	public static String[][] getStrArrayOfCombination(int n0, int n1, int n2, int n3) {
+		String[][] allStr1 = new String[24 * 64][];
+		float[][] allCardAndOp1 = allCardAndOp1(n0, n1, n2, n3);
+
+		int k = 0;
+		for (int i = 0; i < 24 * 64; i++) {
+			allStr1[k] = new String[] { String.valueOf((int) allCardAndOp1[i][0]),
+																	String.valueOf((int) allCardAndOp1[i][1]),
+																	String.valueOf((int) allCardAndOp1[i][2]),
+																	String.valueOf((int) allCardAndOp1[i][3]),
+																	String.valueOf((int) allCardAndOp1[i][4]),
+																	String.valueOf((int) allCardAndOp1[i][5]),
+																	String.valueOf((int) allCardAndOp1[i][6])};
+			k += 1;
+		}
+		// displayMatrixString(allStr1);
+
+		String[][] allStr2 = new String[24 * 64 * 3][];
+		int l = 0;
+		for (int i = 0; i < 24 * 64; i++) {
+			allStr2[l] = new String[]{operationToString(allStr1[i][0], allStr1[i][1], allStr1[i][2]), 
+																	allStr1[i][3], 
+																	allStr1[i][4], 
+																	allStr1[i][5], 
+																	allStr1[i][6]};
+
+			allStr2[l+1] = new String[]{allStr1[i][0], 
+																	allStr1[i][1], 
+																	operationToString(allStr1[i][2], allStr1[i][3], allStr1[i][4]),
+																	allStr1[i][5], 
+																	allStr1[i][6]};
+
+			allStr2[l+2] = new String[]{allStr1[i][0], 
+																	allStr1[i][1], 
+																	allStr1[i][2], 
+																	allStr1[i][3], 
+																	operationToString(allStr1[i][4], allStr1[i][5], allStr1[i][6])};					
+			l += 3;
+		}
+		// displayMatrixString(allStr2);
+
+		String[][] allStr3 = new String[24 * 64 * 3 * 2][];
+		int m = 0;
+		for (int i = 0; i < 24 * 64 * 3; i++) {
+			allStr3[m] = new String[]{operationToString(allStr2[i][0], allStr2[i][1], allStr2[i][2]), 
+																allStr2[i][3], 
+															  allStr2[i][4]};
+			allStr3[m+1] = new String[]{allStr2[i][0], 
+																	allStr2[i][1], 
+																	operationToString(allStr2[i][2], allStr2[i][3],allStr2[i][4])};
+			m += 2;																
+		}
+		// displayMatrixString(allStr3);
+
+		String[][] allStr4 = new String[24 * 64 * 3 * 2][];
+		int n = 0;
+		for (int i = 0; i < 24 * 64 * 3 * 2; i++) {
+			allStr4[n] = new String[]{operationToStringLast(allStr3[i][0], allStr3[i][1], allStr3[i][2])};
+			n += 1;																
+		}
+
+		// displayMatrixString(allStr4);
+
+		String[][] allStrFinal = new String[24 * 64 * 3 * 2 - 1536][];
+		int j = 0;
+		for (int i = 0; i < 24 * 64 * 3 * 2; i++) {
+			if (i%6 != 4) {
+				allStrFinal[j] = allStr4[i];
+				j += 1;
+			}
+		}
+
+		displayMatrixString(allStrFinal);
+
+		return allStrFinal;
+
+	}
+
+
 
 }
