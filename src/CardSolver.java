@@ -145,68 +145,28 @@ public class CardSolver {
 		return allCardAndOp;
 	}
 
-	public static float[][] allCardAndOp2(float[][] allCardAndOp1) {
-		float[][] allCardAndOp2 = new float[24 * 64 * 3][];
+	public static float[][] getFloatArrayOfCombination(float n0, float n1, float n2, float n3) {
+		float[][] allCardAndOp1 = allCardAndOp1(n0,  n1,  n2, n3);
+		float[][] allCardAndOp2 = new float[24 * 64 * 5][];
 
-		// System.out.println(allCardAndOp1[0][1]);
 		int k = 0;
 		for (int i = 0; i < 24 * 64; i++) {
-			allCardAndOp2[k] = new float[] { operation(allCardAndOp1[i][0], (int) allCardAndOp1[i][1], allCardAndOp1[i][2]), allCardAndOp1[i][3], allCardAndOp1[i][4], allCardAndOp1[i][5], allCardAndOp1[i][6]};
-			allCardAndOp2[k+1] = new float[] { allCardAndOp1[i][0], allCardAndOp1[i][1], operation(allCardAndOp1[i][2], (int) allCardAndOp1[i][3], allCardAndOp1[i][4]), allCardAndOp1[i][5], allCardAndOp1[i][6]};
-			allCardAndOp2[k+2] = new float[] { allCardAndOp1[i][0], allCardAndOp1[i][1], allCardAndOp1[i][2], allCardAndOp1[i][3], operation(allCardAndOp1[i][4], (int)allCardAndOp1[i][5], allCardAndOp1[i][6])};
+			float combination0 = operation(operation(operation(allCardAndOp1[i][0], (int) allCardAndOp1[i][1], allCardAndOp1[i][2]), (int) allCardAndOp1[i][3], allCardAndOp1[i][4]), (int) allCardAndOp1[i][5], allCardAndOp1[i][6]);
+			float combination1 = operation(operation(allCardAndOp1[i][0], (int) allCardAndOp1[i][1], allCardAndOp1[i][2]), (int) allCardAndOp1[i][3], operation(allCardAndOp1[i][4], (int) allCardAndOp1[i][5], allCardAndOp1[i][6]));
+			float combination2 = operation(operation(allCardAndOp1[i][0], (int) allCardAndOp1[i][1], operation(allCardAndOp1[i][2], (int) allCardAndOp1[i][3], allCardAndOp1[i][4])), (int) allCardAndOp1[i][5], allCardAndOp1[i][6]);
+			float combination3 = operation(allCardAndOp1[i][0], (int) allCardAndOp1[i][1], operation(operation(allCardAndOp1[i][2], (int) allCardAndOp1[i][3], allCardAndOp1[i][4]), (int) allCardAndOp1[i][5], allCardAndOp1[i][6]));
+			float combination4 = operation(allCardAndOp1[i][0], (int) allCardAndOp1[i][1], operation(allCardAndOp1[i][2], (int) allCardAndOp1[i][3], operation(allCardAndOp1[i][4], (int) allCardAndOp1[i][5], allCardAndOp1[i][6])));
+	
+			allCardAndOp2[k] = new float[] {combination0};
+			allCardAndOp2[k+1] = new float[] {combination1};
+			allCardAndOp2[k+2] = new float[] {combination2};
+			allCardAndOp2[k+3] = new float[] {combination3};
+			allCardAndOp2[k+4] = new float[] {combination4};
 			
-			k += 3;
+			k += 5;
 		}
 		// displayMatrixFloat(allCardAndOp2);
 		return allCardAndOp2;
-	}
-
-	public static float[][] allCardAndOp3(float[][] allCardAndOp2) {
-		float[][] allCardAndOp3 = new float[24 * 64 * 3 * 2][];
-
-		// System.out.println(allCardAndOp1[0][1]);
-		int k = 0;
-		for (int i = 0; i < 24 * 64 * 3; i++) {
-			allCardAndOp3[k] = new float[] { operation(allCardAndOp2[i][0], (int) allCardAndOp2[i][1], allCardAndOp2[i][2]), allCardAndOp2[i][3], allCardAndOp2[i][4]};
-			allCardAndOp3[k+1] = new float[] { allCardAndOp2[i][0], allCardAndOp2[i][1], operation(allCardAndOp2[i][2], (int) allCardAndOp2[i][3], allCardAndOp2[i][4])};
-			k += 2;
-		}
-		// displayMatrixFloat(allCardAndOp3);
-		return allCardAndOp3;
-	}
-
-	public static float[][] allCardAndOp4(float[][] allCardAndOp3) {
-		float[][] allCardAndOp4 = new float[24 * 64 * 3 * 2][];
-
-		// System.out.println(allCardAndOp1[0][1]);
-		int k = 0;
-		for (int i = 0; i < 24 * 64 * 3 * 2; i++) {
-			allCardAndOp4[k] = new float[] { operation(allCardAndOp3[i][0], (int) allCardAndOp3[i][1], allCardAndOp3[i][2])};
-			k += 1;
-		}
-		// displayMatrixFloat(allCardAndOp4);
-		return allCardAndOp4;
-	}
-
-	public static float[][] getFloatArrayOfCombination(int n0, int n1, int n2, int n3) {
-		float[][] allCardAndOp1 = allCardAndOp1(n0, n1, n2, n3);
-		float[][] allCardAndOp2 = allCardAndOp2(allCardAndOp1);
-		float[][] allCardAndOp3 = allCardAndOp3(allCardAndOp2);
-		float[][] allCardAndOp4 = allCardAndOp4(allCardAndOp3);
-
-		float[][] allCardAndOpFinal = new float[24 * 64 * 3 * 2 - 1536][];
-		int j = 0;
-		for (int i = 0; i < 24 * 64 * 3 * 2; i++) {
-			if (i%6 != 4) {
-				allCardAndOpFinal[j] = allCardAndOp4[i];
-				j += 1;
-			}
-		}
-
-		displayMatrixFloat(allCardAndOpFinal);
-
-		return allCardAndOp4;
-
 	}
 
 	public static String[][] getStrArrayOfCombination(int n0, int n1, int n2, int n3) {
@@ -226,64 +186,49 @@ public class CardSolver {
 		}
 		// displayMatrixString(allStr1);
 
-		String[][] allStr2 = new String[24 * 64 * 3][];
+		String[][] allStr2 = new String[24 * 64 * 5][];
 		int l = 0;
 		for (int i = 0; i < 24 * 64; i++) {
-			allStr2[l] = new String[]{operationToString(allStr1[i][0], allStr1[i][1], allStr1[i][2]), 
-																	allStr1[i][3], 
-																	allStr1[i][4], 
-																	allStr1[i][5], 
-																	allStr1[i][6]};
+			String combination0 = operationToString(operationToString(operationToString(allStr1[i][0], allStr1[i][1], allStr1[i][2]), allStr1[i][3], allStr1[i][4]), allStr1[i][5], allStr1[i][6]);
+			String combination1 = operationToString(operationToString(allStr1[i][0], allStr1[i][1], allStr1[i][2]), allStr1[i][3], operationToString(allStr1[i][4], allStr1[i][5], allStr1[i][6]));
+			String combination2 = operationToString(operationToString(allStr1[i][0], allStr1[i][1], operationToString(allStr1[i][2], allStr1[i][3], allStr1[i][4])), allStr1[i][5], allStr1[i][6]);
+			String combination3 = operationToString(allStr1[i][0], allStr1[i][1], operationToString(operationToString(allStr1[i][2], allStr1[i][3], allStr1[i][4]), allStr1[i][5], allStr1[i][6]));
+			String combination4 = operationToString(allStr1[i][0], allStr1[i][1], operationToString(allStr1[i][2], allStr1[i][3], operationToString(allStr1[i][4], allStr1[i][5], allStr1[i][6])));
+	
 
-			allStr2[l+1] = new String[]{allStr1[i][0], 
-																	allStr1[i][1], 
-																	operationToString(allStr1[i][2], allStr1[i][3], allStr1[i][4]),
-																	allStr1[i][5], 
-																	allStr1[i][6]};
 
-			allStr2[l+2] = new String[]{allStr1[i][0], 
-																	allStr1[i][1], 
-																	allStr1[i][2], 
-																	allStr1[i][3], 
-																	operationToString(allStr1[i][4], allStr1[i][5], allStr1[i][6])};					
-			l += 3;
+			allStr2[l] = new String[]{combination0};
+			allStr2[l+1] = new String[]{combination1};
+			allStr2[l+2] = new String[]{combination2};
+			allStr2[l+3] = new String[]{combination3};
+			allStr2[l+4] = new String[]{combination4};
+		
+			l += 5;
 		}
 		// displayMatrixString(allStr2);
+		return allStr2;
+	}
 
-		String[][] allStr3 = new String[24 * 64 * 3 * 2][];
-		int m = 0;
-		for (int i = 0; i < 24 * 64 * 3; i++) {
-			allStr3[m] = new String[]{operationToString(allStr2[i][0], allStr2[i][1], allStr2[i][2]), 
-																allStr2[i][3], 
-															  allStr2[i][4]};
-			allStr3[m+1] = new String[]{allStr2[i][0], 
-																	allStr2[i][1], 
-																	operationToString(allStr2[i][2], allStr2[i][3],allStr2[i][4])};
-			m += 2;																
-		}
-		// displayMatrixString(allStr3);
-
-		String[][] allStr4 = new String[24 * 64 * 3 * 2][];
+	public static String solve24card(int n0, int n1, int n2, int n3) {
+		float[][] FloatComb =  getFloatArrayOfCombination(n0, n1, n2, n3);
+		String[][] StringComb =  getStrArrayOfCombination(n0, n1, n2, n3);
+		
+		String outputStr = "";
 		int n = 0;
-		for (int i = 0; i < 24 * 64 * 3 * 2; i++) {
-			allStr4[n] = new String[]{operationToStringLast(allStr3[i][0], allStr3[i][1], allStr3[i][2])};
-			n += 1;																
-		}
 
-		// displayMatrixString(allStr4);
-
-		String[][] allStrFinal = new String[24 * 64 * 3 * 2 - 1536][];
-		int j = 0;
-		for (int i = 0; i < 24 * 64 * 3 * 2; i++) {
-			if (i%6 != 4) {
-				allStrFinal[j] = allStr4[i];
-				j += 1;
+		for (int i = 0; i < 24 * 64 * 5; i++) {
+			if (FloatComb[i][0] >= 23.95 && FloatComb[i][0] <= 24.05) {
+				outputStr += n+1 + ".    " + StringComb[i][0] + "\n";
+				n += 1;
 			}
 		}
-
-		displayMatrixString(allStrFinal);
-
-		return allStrFinal;
+		if (n == 0) {
+			outputStr = "no solution found";
+		} else {
+			outputStr = n + " solution found\n" + outputStr;
+		}
+		System.out.println(outputStr);
+		return(outputStr);
 
 	}
 
