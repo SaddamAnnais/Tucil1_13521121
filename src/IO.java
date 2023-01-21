@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.*;
 
+
 public class IO {
 
   public static boolean validateCard(String input) {
@@ -27,7 +28,7 @@ public class IO {
   }
 
   public static String[] readInput() throws IOException {
-    System.out.println("Input 4 character of A, J, Q, K, or 1-10.\nEach character is separated by a space");
+    System.out.println("\nInput 4 character of A, J, Q, K, or 1-10.\nEach character is separated by a space");
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     String lines = br.readLine();
 
@@ -54,7 +55,7 @@ public class IO {
     String[] inputArr = readInput();
 
     while (!validateInput(inputArr)) {
-      System.out.println("Input is incorrect.\n");
+      System.out.println("Input is incorrect.");
       inputArr = readInput();
     }
 
@@ -68,18 +69,17 @@ public class IO {
     BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
     writer.write(input);
     writer.close();
-    System.out.println("Saved to file successfully!");
+    System.out.println("Saved in test folder successfully!");
   }
 
   public static void save(String savedStr,String filename) throws IOException {
     Scanner scanner = new Scanner(System.in);
     System.out.print("Do you want to save the solution? (Y/N): ");
-    String userInput = scanner.nextLine();
-    System.out.println(userInput);
-    if (userInput.equalsIgnoreCase("Y")) {
+    String input = scanner.nextLine();
+    if (input.equalsIgnoreCase("Y")) {
       save2TXT(savedStr, filename);
     } else {
-      System.out.println("String not saved.");
+      System.out.println("Solution not saved.");
     }
 }
 
