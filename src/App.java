@@ -1,13 +1,15 @@
 import java.util.*;
+import java.io.*;
 
 
 public class App {
-  public static void main(String[] args){
-    // CardSolver.getFloatArrayOfCombination(1, 2, 3, 4);
-    // CardSolver.getFloatArrayOfCombination(1, 2, 3, 4);
-    CardSolver.solve24card(8,7,7,4);
-    // System.out.println(CardSolver.operationToString("1", "-2", "3"));
+  public static void main(String[] args) throws IOException {
+    int[] input = IO.readAndValidate();
+    String outputStr = CardSolver.solve24card(input[0], input[1], input[2], input[3]);
     
-    // System.out.println(s1);
+    String filename = input[0] + " " + input[1] + " " + input[2] + " " + input[3] + ".txt";
+    outputStr = filename + "\n" + outputStr;
+
+    IO.save(outputStr, "test/"+ filename);
   }
 }
