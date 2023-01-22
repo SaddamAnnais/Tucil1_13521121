@@ -1,6 +1,6 @@
 import java.io.*;
 import java.util.*;
-
+import java.util.Random;
 
 public class IO {
 
@@ -27,15 +27,6 @@ public class IO {
     }
   }
 
-  public static String[] readInput() throws IOException {
-    System.out.println("\nInput 4 character of A, J, Q, K, or 1-10.\nEach character is separated by a space");
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    String lines = br.readLine();
-
-    String[] strs = lines.trim().split("\\s+");
-    return strs;
-  }
-
   public static int convertToInteger(String input) {
     switch (input) {
       case "A":
@@ -51,19 +42,7 @@ public class IO {
     }
   }
 
-  public static int[] readAndValidate() throws IOException {
-    String[] inputArr = readInput();
 
-    while (!validateInput(inputArr)) {
-      System.out.println("Input is incorrect.");
-      inputArr = readInput();
-    }
-
-    int[] outputInt = { convertToInteger(inputArr[0]), convertToInteger(inputArr[1]), convertToInteger(inputArr[2]),
-        convertToInteger(inputArr[3]) };
-
-    return outputInt;
-  }
 
   public static void save2TXT(String input, String fileName) throws IOException {
     BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
@@ -72,7 +51,7 @@ public class IO {
     System.out.println("Saved in test folder successfully!");
   }
 
-  public static void save(String savedStr,String filename) throws IOException {
+  public static void save(String savedStr, String filename) throws IOException {
     Scanner scanner = new Scanner(System.in);
     System.out.print("Do you want to save the solution? (Y/N): ");
     String input = scanner.nextLine();
@@ -81,6 +60,68 @@ public class IO {
     } else {
       System.out.println("Solution not saved.");
     }
+  }
+
+  public static String[] randomInput() {
+    String[] randArr = new String[4];
+    Random random = new Random();
+    for (int i = 0; i < 4; i++) {
+        int randNum = random.nextInt(13) + 1;
+        if (randNum == 1) {
+            randArr[i] = "A";
+        } else if (randNum == 11) {
+          randArr[i] = "J";
+        } else if (randNum == 12) {
+          randArr[i] = "Q";
+        } else if (randNum == 13) {
+          randArr[i] = "K";
+        } else {
+          randArr[i] = Integer.toString(randNum);
+        }
+    }
+    System.out.println("Random input: ");
+    for (int i = 0; i < randArr.length; i++) {
+        System.out.print(randArr[i]+ " ");
+    }
+    System.out.print("\n");
+    return randArr;
 }
 
+  public static String[] userInput() throws IOException {
+    System.out.println("\nInput 4 character of A, J, Q, K, or 2-10.\nEach character is separated by a space");
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    String lines = br.readLine();
+    String[] strs = lines.trim().split("\\s+");
+    return strs;
+  }
+
+  public static String[] readInput() throws IOException {
+    Scanner scanner = new Scanner(System.in);
+    System.out.print("Do you want to enter an input or generate a random one? (Enter/Random): ");
+    String userChoice = scanner.nextLine();
+
+    if (userChoice.equalsIgnoreCase("Enter")) {
+        return userInput();
+    } else if (userChoice.equalsIgnoreCase("Random")) {
+        String[] randomStrings = randomInput();
+
+        return randomStrings;
+    } else {
+        System.out.println("Invalid choice. Please enter 'Enter' or 'Random'.");
+        String[] invalidStr = {};
+        return invalidStr;
+    }
+}
+
+
+  public static int[] readAndValidate() throws IOException {
+    String[] inputArr = readInput();
+    while (!validateInput(inputArr)) {
+      System.out.println("Input is incorrect.");
+      inputArr = readInput();
+    }
+    int[] outputInt = { convertToInteger(inputArr[0]), convertToInteger(inputArr[1]), convertToInteger(inputArr[2]),
+        convertToInteger(inputArr[3]) };
+    return outputInt;
+  }
 }
