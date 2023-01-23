@@ -34,7 +34,7 @@ java --enable-preview -jar .\src\Tucil1_13521121.jar
 ## Project Status
 The program is finished.
 
-| Poin  | Ya | Tidak |
+| Poin  | Yes | No |
 |---|---|---|
 | Program can be compiled without error | ✓ |   |
 | Program successfully run | ✓ |   |
